@@ -1,0 +1,51 @@
+h1. [HU_012] - Expor APIs REST e GraphQL para web, mobile e admin
+
+p. *SENDO* desenvolvedor ou integrador autorizado.
+*EU QUERO* consumir contratos REST e GraphQL documentados e versionados.
+*PARA* integrar web, mobile, admin, academias e automacoes com seguranca e previsibilidade.
+
+h2. Descrição
+
+Define contratos de API com OpenAPI 3.1.1 e GraphQL, cobrindo autenticação, erros, permissoes, rate limit e versionamento.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_012.1|um cliente autenticado chama endpoint documentado|a requisicao e valida|o sistema retorna resposta conforme OpenAPI.|
+|=. HU_012.2|a requisicao viola schema|a API valida entrada|o sistema retorna erro padronizado.|
+|=. HU_012.3|um usuario tenta acessar objeto de outro tenant|a autorizacao e avaliada|o sistema nega acesso e audita.|
+|=. HU_012.4|o contrato e alterado|a mudanca entra em PR|documentos OpenAPI/GraphQL e testes de contrato sao atualizados.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Documentacao de WebServices |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|OpenAPI|Contrato REST versionado.|
+|2|GraphQL Schema|Contrato para queries, mutations e subscriptions.|
+|3|API Gateway|Autenticacao, rate limit e auditoria.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Authorization|Header|Bearer JWT|N/A|Sim|Obrigatorio em endpoints protegidos.|
+|2|Request ID|Header|UUID|36|Sim|Rastreabilidade.|
+|3|Version|Path/header|v1|N/A|Sim|Contrato versionado.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU012-01|Contrato antes de codigo|Engenharia|N/A|N/A|Sim|Mudancas externas exigem contrato atualizado.|
+|RN-HU012-02|Autorizacao por objeto|Seguranca|N/A|N/A|Sim|Nao basta validar papel; validar posse/finalidade.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F012|
+|Prioridade|Must|
+|Entidades principais|integrations.api_client, security.access_log, security.rate_limit_bucket|
+|APIs/Contratos|docs/05-api/openapi.yaml, docs/05-api/graphql-schema.graphql|
+|Fonte funcional|docs/01-product/prd.md|

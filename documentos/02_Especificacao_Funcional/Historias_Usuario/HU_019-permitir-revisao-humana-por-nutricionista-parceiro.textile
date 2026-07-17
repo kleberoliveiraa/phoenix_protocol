@@ -1,0 +1,51 @@
+h1. [HU_019] - Permitir revisao humana por nutricionista parceiro
+
+p. *SENDO* nutricionista parceiro.
+*EU QUERO* revisar planos e casos com condicao clinica, exame alterado, intolerancia, medicamento ou objetivo competitivo.
+*PARA* garantir seguranca e personalizacao profissional quando o caso excede automacao informativa.
+
+h2. Descrição
+
+Fila de revisao profissional com consentimento, contexto minimo, historico, parecer e separacao clara entre recomendacao informativa e prescricao profissional.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_019.1|o plano indica condicao clinica ou medicamento|a triagem e executada|o sistema encaminha para fila de revisao.|
+|=. HU_019.2|o nutricionista abre um caso sem consentimento valido|tenta visualizar detalhes|o sistema bloqueia acesso.|
+|=. HU_019.3|o nutricionista registra parecer|salva revisao|o sistema atualiza status, auditoria e notifica usuario.|
+|=. HU_019.4|o caso exige medico|o nutricionista marca escalonamento|o sistema orienta atendimento medico e limita automacoes.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Fila de Revisao Nutricional |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Fila de casos|Lista alunos que exigem revisao.|
+|2|Painel de contexto|Mostra dados consentidos e necessarios.|
+|3|Registro de parecer|Armazena revisao profissional.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Motivo da revisao|Selecao|Lista|N/A|Sim|Exame, medicamento, intolerancia, condicao clinica, competicao.|
+|2|Consentimento|UUID|UUID|36|Sim|Necessario para acesso profissional.|
+|3|Parecer|Texto|Livre|5000|Sim|Registrado com autor e data.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU019-01|Acesso por finalidade|LGPD|N/A|N/A|Sim|Profissional acessa apenas dados consentidos e necessarios.|
+|RN-HU019-02|Responsabilidade profissional|Operacao|N/A|N/A|Sim|Parecer deve registrar autor, registro profissional quando aplicavel e data.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F019|
+|Prioridade|Should|
+|Entidades principais|nutrition.nutritionist_review, medical.medical_consent, gym.gym_nutritionist_assignment, security.audit_log|
+|APIs/Contratos|Nutrition review workflows, GET /v1/gyms/current|
+|Fonte funcional|docs/01-product/prd.md|

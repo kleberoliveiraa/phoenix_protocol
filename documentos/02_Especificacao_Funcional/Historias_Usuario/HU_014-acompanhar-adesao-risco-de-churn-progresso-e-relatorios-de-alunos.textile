@@ -1,0 +1,51 @@
+h1. [HU_014] - Acompanhar adesao, risco de churn, progresso e relatorios de alunos
+
+p. *SENDO* gestor, coach ou staff autorizado de academia.
+*EU QUERO* acompanhar alunos por adesao, risco de churn, progresso e relatorios permitidos.
+*PARA* intervir no momento certo e aumentar retencao e resultado dos alunos.
+
+h2. Descrição
+
+Painel B2B para acompanhamento de cohortes e alunos, com permissao por unidade, minimizacao e alertas operacionais.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_014.1|staff autorizado acessa dashboard|seleciona unidade/coorte|o sistema lista apenas alunos permitidos.|
+|=. HU_014.2|um aluno apresenta baixa adesao|o motor processa metricas|o aluno aparece como prioridade de acompanhamento.|
+|=. HU_014.3|o staff tenta abrir relatorio sem consentimento|solicita acesso|o sistema bloqueia e orienta solicitar consentimento.|
+|=. HU_014.4|o gestor exporta visao agregada|a exportacao e gerada|o sistema minimiza dados pessoais e registra auditoria.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Gym Dashboard |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Lista de alunos|Exibe status, fase, adesao e risco.|
+|2|Filtro de coorte/unidade|Segmenta visualizacao autorizada.|
+|3|Painel de intervencao|Prioriza alunos com risco ou alerta.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Coorte|Filtro|UUID|36|Nao|Limita alunos exibidos.|
+|2|Risco de churn|Calculado|Baixo/medio/alto|N/A|Sim|Derivado de adesao e engajamento.|
+|3|Relatorio|Acao|Link|N/A|Nao|Disponivel por consentimento.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU014-01|Finalidade B2B|Privacidade|N/A|N/A|Sim|Staff so acessa dados necessarios ao acompanhamento contratado.|
+|RN-HU014-02|Risco explicavel|Analytics|N/A|N/A|Sim|Churn risk deve exibir sinais usados no calculo.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F014|
+|Prioridade|Must|
+|Entidades principais|gym.gym_dashboard, gym.gym_churn_risk, gym.gym_member_retention_signal, war_room.report|
+|APIs/Contratos|GET /v1/gyms/{gymId}/members, GraphQL gymMembers|
+|Fonte funcional|docs/01-product/prd.md|

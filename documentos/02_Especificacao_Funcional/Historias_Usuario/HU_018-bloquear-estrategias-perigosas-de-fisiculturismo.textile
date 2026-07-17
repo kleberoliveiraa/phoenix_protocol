@@ -1,0 +1,51 @@
+h1. [HU_018] - Bloquear estrategias perigosas de fisiculturismo
+
+p. *SENDO* usuario, aluno de academia ou administrador.
+*EU QUERO* que o sistema bloqueie ou alerte estrategias perigosas de definicao e competicao.
+*PARA* preservar saude, compliance e responsabilidade da plataforma.
+
+h2. Descrição
+
+Policy transversal para bloquear desidratacao extrema, diureticos, manipulacao severa de sodio e outras condutas de alto risco.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_018.1|o usuario pede orientacao de diuretico|a IA avalia a pergunta|o sistema bloqueia a resposta e orienta profissional habilitado.|
+|=. HU_018.2|um conteudo admin menciona desidratacao extrema como estrategia|o editor tenta publicar|o sistema bloqueia publicacao e exige revisao.|
+|=. HU_018.3|a estrategia e classificada como perigosa|o evento e processado|o sistema registra auditoria e safety alert.|
+|=. HU_018.4|o usuario pede alternativa segura|a policy permite resposta|o sistema sugere condutas educacionais e conservadoras.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Safety Policy de Nutricao |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Policy engine|Avalia solicitacoes e conteudos.|
+|2|Moderador de IA|Bloqueia respostas perigosas.|
+|3|Registro de incidente|Audita tentativa e decisao.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Tipo de estrategia|Texto/lista|Livre|200|Sim|Desidratacao, diuretico, sodio, restricao extrema.|
+|2|Origem|Selecao|IA/conteudo/admin/usuario|N/A|Sim|Canal da tentativa.|
+|3|Severidade|Selecao|Lista|N/A|Sim|normal, caution, escalate.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU018-01|Proibicao de condutas perigosas|Safety|N/A|N/A|Sim|Diureticos, desidratacao extrema e sodio severo nao fazem parte do sistema.|
+|RN-HU018-02|Auditoria de bloqueio|Compliance|N/A|N/A|Sim|Todo bloqueio relevante deve ser registrado.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F018|
+|Prioridade|Must|
+|Entidades principais|ai.ai_safety_guardrail, ai.ai_content_policy, security.security_event, content.safety_notice|
+|APIs/Contratos|POST /v1/ai/chat, Admin content workflows|
+|Fonte funcional|docs/01-product/prd.md|

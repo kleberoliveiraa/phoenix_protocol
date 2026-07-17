@@ -1,0 +1,52 @@
+h1. [HU_020] - Sincronizar treino de academia com carb cycling e refeicoes
+
+p. *SENDO* aluno de academia.
+*EU QUERO* sincronizar meu treino de musculacao, hipertrofia e condicionamento com carb cycling e refeicoes pre e pos-treino.
+*PARA* alimentar o treino certo no dia certo, construir massa magra e controlar gordura.
+
+h2. Descrição
+
+Integra agenda de treino, foco do dia e protocolo nutricional para ajustar carboidratos, refeicoes e timing alimentar.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_020.1|o treino do dia e pernas ou full body forca|o plano nutricional e exibido|o sistema marca prioridade alta de carboidratos.|
+|=. HU_020.2|o dia e descanso ativo|o plano e exibido|o sistema reduz carboidrato e prioriza feijao, vegetais e pequena porcao de arroz.|
+|=. HU_020.3|o usuario relata cafe prejudicando sono|o pre-treino e montado|o sistema evita cafe como recomendacao padrao.|
+|=. HU_020.4|o treino muda na agenda|o plano do dia e recalculado|carb cycling e refeicoes refletem o novo foco.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Treino e Nutricao do Dia |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Calendario de treino|Identifica foco do dia.|
+|2|Carb cycling engine|Define nivel de carboidrato por tipo de treino.|
+|3|Meal timing|Sugere pre e pos-treino alinhados ao sono e digestao.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Tipo de treino|Selecao|Lista|N/A|Sim|Pernas, full body, Muay Thai, empurrar, puxar, descanso.|
+|2|Nivel de carboidrato|Calculado|Baixo/moderado/alto|N/A|Sim|Derivado do treino.|
+|3|Refeicao pre-treino|Texto/lista|Livre|500|Nao|Ex.: banana com aveia e proteina leve.|
+|4|Refeicao pos-treino|Texto/lista|Livre|500|Nao|Ex.: proteina + arroz/macarrao sem gluten + legumes.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU020-01|Carb cycling por treino|Nutricao|N/A|N/A|Sim|Pernas, full body e desafio militar recebem prioridade alta de carboidratos.|
+|RN-HU020-02|Sono como restricao|Recovery|N/A|N/A|Sim|Cafeina deve considerar impacto no sono.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F020|
+|Prioridade|Should|
+|Entidades principais|nutrition.carb_cycling_rule, nutrition.pre_workout_meal, nutrition.post_workout_meal, gym.gym_bodybuilding_program|
+|APIs/Contratos|GET /v1/nutrition/plans/current, GET /v1/programs/current|
+|Fonte funcional|docs/01-product/prd.md|

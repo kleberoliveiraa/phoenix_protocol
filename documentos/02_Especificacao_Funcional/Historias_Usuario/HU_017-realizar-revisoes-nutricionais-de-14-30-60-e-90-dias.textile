@@ -1,0 +1,53 @@
+h1. [HU_017] - Realizar revisoes nutricionais de 14, 30, 60 e 90 dias
+
+p. *SENDO* usuario, aluno de academia ou nutricionista parceiro.
+*EU QUERO* revisar meu plano nutricional por peso, cintura, forca, sono, humor e score.
+*PARA* ajustar carboidratos, deficit ou superavit de forma gradual e segura.
+
+h2. Descrição
+
+Motor de revisao nutricional com decisao de manter, adicionar carboidratos, reduzir carboidratos/gordura ou fazer semana de manutencao.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_017.1|peso sobe lentamente, forca melhora e cintura esta estavel|a revisao e processada|o sistema recomenda manter o plano.|
+|=. HU_017.2|peso e desempenho estagnam por 2 semanas sem cintura subir|a revisao e processada|o sistema recomenda adicionar 25-40 g de carboidrato por dia.|
+|=. HU_017.3|cintura sobe rapido sem ganho proporcional de forca|a revisao e processada|o sistema recomenda retirar 20-30 g de carboidrato ou pequena porcao de gordura.|
+|=. HU_017.4|sono, humor e forca pioram durante definicao|a revisao e processada|o sistema recomenda reduzir deficit ou semana de manutencao.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Revisao Nutricional |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Formulario de revisao|Coleta tendencias do periodo.|
+|2|Motor de ajuste|Aplica regras de 14 dias.|
+|3|Resumo de decisao|Explica ajuste e limites.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Periodo|Selecao|14/30/60/90|2|Sim|Marcos oficiais.|
+|2|Tendencia de peso|Selecao|Lista|N/A|Sim|down, stable, slow_up, fast_up.|
+|3|Tendencia de cintura|Selecao|Lista|N/A|Sim|Indicador critico em hipertrofia.|
+|4|Tendencia de forca|Selecao|Lista|N/A|Sim|down, stable, up.|
+|5|Sono e humor|Selecao|Lista|N/A|Sim|Ajusta deficit e recuperacao.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU017-01|Ajuste gradual|Nutricao|N/A|N/A|Sim|Nao permitir mudancas agressivas sem revisao profissional.|
+|RN-HU017-02|Cintura como freio|Hypertrophy|N/A|N/A|Sim|Cintura nao deve subir na mesma velocidade do peso.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F017|
+|Prioridade|Must|
+|Entidades principais|nutrition.fourteen_day_nutrition_review, nutrition.nutrition_adjustment_rule, nutrition.waist_velocity_signal|
+|APIs/Contratos|POST /v1/nutrition/reviews|
+|Fonte funcional|docs/01-product/prd.md|

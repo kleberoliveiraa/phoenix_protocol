@@ -1,0 +1,53 @@
+h1. [HU_009] - Registrar exames e biomarcadores com graficos longitudinais
+
+p. *SENDO* usuario Phoenix.
+*EU QUERO* registrar exames e biomarcadores ao longo do tempo.
+*PARA* acompanhar tendencias informativas e preparar conversas com profissionais de saude.
+
+h2. Descrição
+
+Modulo PMI para entrada de biomarcadores, documentos de exame, fonte, unidade, faixa de referencia e visualizacao longitudinal.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_009.1|o usuario possui consentimento valido|registra biomarcador|o sistema salva resultado e atualiza grafico.|
+|=. HU_009.2|o consentimento esta ausente ou revogado|tenta salvar exame|o sistema bloqueia e solicita consentimento apropriado.|
+|=. HU_009.3|existem multiplos resultados|o usuario abre biomarcador|o sistema exibe grafico longitudinal e tendencia informativa.|
+|=. HU_009.4|um valor sugere risco critico|o resultado e processado|o sistema orienta procurar profissional sem diagnosticar.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Phoenix Medical Timeline |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Formulario de biomarcador|Registra valor, unidade e data.|
+|2|Upload de exame|Anexa documento ao historico.|
+|3|Grafico longitudinal|Mostra tendencia por biomarcador.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Biomarcador|Texto|Codigo/nome|100|Sim|Ex.: glicose, LDL, HDL.|
+|2|Valor|Numero|Decimal|N/A|Sim|Validar unidade.|
+|3|Unidade|Texto|Livre/lista|30|Sim|Obrigatoria para interpretacao.|
+|4|Data de coleta|Data|yyyy-mm-dd|10|Sim|Base da serie historica.|
+|5|Consentimento|UUID|UUID|36|Sim|Obrigatorio para dado sensivel.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU009-01|Dado sensivel|LGPD|N/A|N/A|Sim|Exames e biomarcadores exigem protecao reforcada.|
+|RN-HU009-02|Sem diagnostico|Medical|N/A|N/A|Sim|Exibir informacao, fonte e limite educacional.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F009|
+|Prioridade|Should|
+|Entidades principais|medical.biomarker_result, medical.lab_panel, medical.lab_result_document, medical.health_trend|
+|APIs/Contratos|POST /v1/medical/lab-results|
+|Fonte funcional|docs/01-product/prd.md|

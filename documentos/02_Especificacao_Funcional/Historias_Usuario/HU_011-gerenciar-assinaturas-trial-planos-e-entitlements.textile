@@ -1,0 +1,51 @@
+h1. [HU_011] - Gerenciar assinaturas, trial, planos e entitlements
+
+p. *SENDO* usuario, gestor de academia ou administrador.
+*EU QUERO* contratar, alterar ou cancelar planos e controlar funcionalidades liberadas.
+*PARA* usar o Phoenix conforme meu plano comercial e manter a monetizacao SaaS consistente.
+
+h2. Descrição
+
+Fluxo de checkout, planos, trial, webhooks de pagamento e entitlements por usuario, academia ou tenant.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_011.1|o usuario escolhe um plano|inicia checkout|o sistema cria sessao de pagamento.|
+|=. HU_011.2|o webhook confirma pagamento|o billing processa evento|o entitlement e ativado de forma idempotente.|
+|=. HU_011.3|a assinatura vence ou falha|o usuario acessa feature paga|o sistema restringe acesso conforme politica.|
+|=. HU_011.4|um gestor B2B contrata plano Coach|a assinatura e ativada|o sistema libera recursos de academia/coorte.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Billing e Planos |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Tabela de planos|Exibe Free, Individual, Pro, Coach e Enterprise.|
+|2|Checkout|Redireciona para provedor de pagamento.|
+|3|Entitlement resolver|Controla acesso por feature.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Plano|Selecao|Lista|N/A|Sim|Define entitlements.|
+|2|Tenant|UUID|UUID|36|Sim|Necessario para B2B.|
+|3|Status de assinatura|Calculado|Texto|N/A|Sim|trial, active, past_due, cancelled.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU011-01|Webhook idempotente|Billing|N/A|N/A|Sim|Eventos repetidos nao podem duplicar cobrancas ou entitlements.|
+|RN-HU011-02|Acesso por entitlement|Produto|N/A|N/A|Sim|Feature paga sempre consulta entitlement vigente.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F011|
+|Prioridade|Should|
+|Entidades principais|billing.subscription, billing.entitlement, billing.invoice, billing.payment_intent|
+|APIs/Contratos|POST /v1/billing/checkout|
+|Fonte funcional|docs/01-product/prd.md|

@@ -1,0 +1,51 @@
+h1. [HU_002] - Gerar plano de 90 dias com fases, treinos, RPE e deloads
+
+p. *SENDO* usuario Phoenix.
+*EU QUERO* receber um plano de 90 dias dividido em fases, treinos, RPE alvo e semanas de deload.
+*PARA* seguir uma progressao clara, segura e mensuravel ate a graduacao.
+
+h2. Descrição
+
+Gera o plano operacional com fases Foundation, Strength, Performance e Graduation, incluindo treinos diarios, desafios, deloads nas semanas 4, 8 e 12 e retestes.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_002.1|o onboarding esta completo|o plano e gerado|o sistema cria 90 dias com fases, treinos, deloads e desafios.|
+|=. HU_002.2|a semana gerada e 4, 8 ou 12|o usuario visualiza os treinos|o volume aparece reduzido e identificado como deload.|
+|=. HU_002.3|o usuario esta em uma fase especifica|abre a sessao do dia|o sistema exibe RPE alvo, exercicios, descansos e observacoes.|
+|=. HU_002.4|o usuario conclui criterios de progressao|a semana seguinte e recalculada|o sistema sugere avancar nivel mantendo seguranca articular.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Plano 90 Dias |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Calendario do programa|Exibe dias, semanas, fase, deloads e graduacao.|
+|2|Workout planner|Monta sessoes por foco, exercicios, series e RPE.|
+|3|Motor de progressao|Aplica regras de nivel, regressao e criterios de graduacao.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Data de inicio|Data|yyyy-mm-dd|10|Sim|Base para gerar os 90 dias.|
+|2|Fase|Calculado|Texto|N/A|Sim|Foundation, Strength, Performance ou Graduation.|
+|3|RPE alvo|Calculado|Numero|1-10|Sim|Varia por fase e deload.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU002-01|Deload obrigatorio|Treino|N/A|N/A|Sim|Semanas 4, 8 e 12 reduzem volume e nao devem ser compensadas.|
+|RN-HU002-02|Progressao segura|Treino|N/A|N/A|Sim|Avanco exige criterio cumprido sem dor articular relevante.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F002|
+|Prioridade|Must|
+|Entidades principais|body.program_plan, body.training_day, body.workout_session, body.deload_rule|
+|APIs/Contratos|GET /v1/programs/current|
+|Fonte funcional|docs/01-product/prd.md|

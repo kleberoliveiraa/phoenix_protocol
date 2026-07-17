@@ -1,0 +1,56 @@
+h1. [HU_016] - Calcular Phoenix Nutrition Score
+
+p. *SENDO* usuario ou aluno de academia.
+*EU QUERO* calcular meu Nutrition Score por proteina, hidratacao, vegetais, refeicoes, treino, sono, digestao e controle alimentar.
+*PARA* entender a qualidade da aderencia nutricional e receber operacao de correcao quando necessario.
+
+h2. Descrição
+
+Pontuacao de 0 a 100 com faixas Ouro, Prata, Bronze e Operacao de Correcao, baseada nos componentes oficiais do Phoenix Nutrition System.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_016.1|todos os componentes sao informados|o check-in e salvo|o sistema calcula score de 0 a 100.|
+|=. HU_016.2|o score fica entre 85 e 100|a faixa e calculada|o sistema classifica como Ouro.|
+|=. HU_016.3|o score fica abaixo de 55|a faixa e calculada|o sistema cria operacao de correcao.|
+|=. HU_016.4|um componente tem valor fora do peso permitido|o usuario salva|o sistema rejeita o valor e orienta correcao.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Nutrition Score |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Score calculator|Soma componentes oficiais.|
+|2|Faixa de score|Classifica em ouro, prata, bronze ou correcao.|
+|3|Plano de correcao|Sugere foco da semana.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Proteina|Numero|0-20|2|Sim|Peso 20.|
+|2|Hidratacao|Numero|0-15|2|Sim|Peso 15.|
+|3|Frutas e vegetais|Numero|0-15|2|Sim|Peso 15.|
+|4|Refeicoes planejadas|Numero|0-15|2|Sim|Peso 15.|
+|5|Alinhamento com treino|Numero|0-15|2|Sim|Peso 15.|
+|6|Sono|Numero|0-10|2|Sim|Peso 10.|
+|7|Digestao|Numero|0-5|1|Sim|Peso 5.|
+|8|Alcool e ultraprocessados|Numero|0-5|1|Sim|Peso 5.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU016-01|Pesos oficiais|Nutricao|N/A|N/A|Sim|Soma dos componentes deve totalizar 100.|
+|RN-HU016-02|Faixas oficiais|Produto|N/A|N/A|Sim|85-100 Ouro, 70-84 Prata, 55-69 Bronze, abaixo de 55 correcao.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F016|
+|Prioridade|Must|
+|Entidades principais|nutrition.nutrition_score, nutrition.nutrition_score_component, nutrition.nutrition_check_in|
+|APIs/Contratos|POST /v1/nutrition/check-ins|
+|Fonte funcional|docs/01-product/prd.md|

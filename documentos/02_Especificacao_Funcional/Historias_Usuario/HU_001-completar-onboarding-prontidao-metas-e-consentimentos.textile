@@ -1,0 +1,51 @@
+h1. [HU_001] - Completar onboarding, prontidao, metas e consentimentos
+
+p. *SENDO* usuario Phoenix.
+*EU QUERO* completar meu onboarding, informar minha prontidao fisica, registrar metas e aceitar consentimentos aplicaveis.
+*PARA* iniciar o protocolo com seguranca, personalizacao e base legal adequada para tratamento de dados.
+
+h2. Descrição
+
+Fluxo inicial de cadastro funcional que coleta objetivos, linha de base, prontidao, restricoes, preferencias e consentimentos antes de ativar o plano Phoenix.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_001.1|o usuario acessa a plataforma pela primeira vez|conclui perfil, metas e consentimentos|o sistema cria perfil, baseline e trilha de auditoria de consentimento.|
+|=. HU_001.2|uma resposta de prontidao indica risco critico|o usuario tenta finalizar o onboarding|o sistema bloqueia ativacao automatica e orienta obter liberacao profissional.|
+|=. HU_001.3|o usuario nao aceita um consentimento obrigatorio|clica em finalizar|o sistema informa a finalidade pendente e nao ativa recursos dependentes.|
+|=. HU_001.4|o usuario conclui todos os passos validos|confirma o onboarding|o sistema ativa o programa inicial e redireciona para o War Room ou Dia 1.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Onboarding Phoenix |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Stepper de onboarding|Organiza perfil, metas, prontidao, consentimentos e confirmacao final.|
+|2|Formulario de prontidao|Coleta respostas de risco, lesoes, medicacoes e historico de treino.|
+|3|Consent Manager|Exibe finalidades, politicas e aceite granular.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Objetivo principal|Selecao unica|Lista|N/A|Sim|Opcoes: recomposicao, hipertrofia, definicao, condicionamento, saude.|
+|2|Respostas de prontidao|Questionario|Booleano/texto|N/A|Sim|Respostas criticas podem exigir liberacao medica.|
+|3|Consentimentos|Selecao multipla|Checkbox|N/A|Sim|Registrar data, finalidade, versao e origem do aceite.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU001-01|Consentimento granular|LGPD|N/A|N/A|Sim|Dados sensiveis exigem finalidade e consentimento explicito quando aplicavel.|
+|RN-HU001-02|Bloqueio medico|Seguranca|N/A|N/A|Sim|Dor no peito, tontura ou restricao medica bloqueiam ativacao automatica.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F001|
+|Prioridade|Must|
+|Entidades principais|identity.user_account, identity.consent_record, identity.readiness_screening, identity.goal|
+|APIs/Contratos|POST /v1/onboarding, GET /v1/me|
+|Fonte funcional|docs/01-product/prd.md|

@@ -1,0 +1,51 @@
+h1. [HU_006] - Detectar dor articular e recomendar regressao ou pausa
+
+p. *SENDO* usuario Phoenix.
+*EU QUERO* informar dor articular e receber orientacao segura de regressao, pausa ou escalonamento.
+*PARA* proteger articulacoes e reduzir risco de lesao durante o programa.
+
+h2. Descrição
+
+Aplica regra da dor a partir de check-ins, RPE, observacoes e historico para ajustar treino sem linguagem clinica indevida.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_006.1|o usuario relata dor articular moderada|salva o check-in|o sistema recomenda regressao e registra alerta.|
+|=. HU_006.2|o usuario relata sinal critico|salva ou tenta continuar|o sistema orienta interromper e procurar atendimento profissional.|
+|=. HU_006.3|ha dor recorrente no mesmo padrao|o plano e recalculado|o sistema reduz progressao do movimento afetado.|
+|=. HU_006.4|o alerta e criado|staff autorizado visualiza coorte|o aluno aparece com prioridade de acompanhamento sem expor dados alem do necessario.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Alerta de Dor e Regressao |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Detector de dor|Interpreta relato do usuario.|
+|2|Recomendador de regressao|Sugere reduzir nivel, volume ou pausar.|
+|3|Escalonamento de seguranca|Orienta buscar profissional em sinais criticos.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Local da dor|Selecao/texto|Lista/livre|100|Sim|Ombro, cotovelo, punho, lombar, quadril, joelho, tornozelo ou outro.|
+|2|Intensidade|Numero|0-10|2|Sim|Acima de limite aciona alerta.|
+|3|Sinal critico|Booleano|Sim/Nao|N/A|Sim|Dor no peito, tontura ou falta de ar desproporcional escalona.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU006-01|Sem diagnostico|Compliance|N/A|N/A|Sim|O sistema nao diagnostica lesao.|
+|RN-HU006-02|Escalonamento critico|Seguranca|N/A|N/A|Sim|Sinais criticos exigem orientacao de atendimento profissional.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F006|
+|Prioridade|Must|
+|Entidades principais|recovery.pain_report, recovery.pain_rule_decision, recovery.recovery_alert|
+|APIs/Contratos|POST /v1/daily-logs|
+|Fonte funcional|docs/01-product/prd.md|

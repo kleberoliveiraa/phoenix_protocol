@@ -1,0 +1,52 @@
+h1. [HU_010] - Emitir relatorio para usuario ou profissional autorizado
+
+p. *SENDO* usuario Phoenix.
+*EU QUERO* gerar e compartilhar relatorio com dados de progresso, treino, nutricao e medical.
+*PARA* acompanhar evolucao e discutir informacoes com profissional autorizado quando eu consentir.
+
+h2. Descrição
+
+Relatorio executivo exportavel com escopo selecionavel, consentimento, expiracao e trilha de auditoria.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_010.1|o usuario seleciona periodo e escopo|gera relatorio|o sistema cria PDF/HTML com dados permitidos.|
+|=. HU_010.2|o escopo inclui dados medicos|o usuario confirma compartilhamento|o sistema exige consentimento explicito e registra auditoria.|
+|=. HU_010.3|um link expirado e acessado|o destinatario abre a URL|o sistema nega acesso.|
+|=. HU_010.4|um profissional autorizado acessa relatorio|a pagina carrega|o sistema registra acesso com finalidade.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Exportacao de Relatorio |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Seletor de escopo|Define secoes do relatorio.|
+|2|Gerador PDF/HTML|Monta relatorio legivel.|
+|3|Share link seguro|Cria link expiravel e auditado.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Periodo|Filtro|Data|N/A|Sim|Define janela do relatorio.|
+|2|Escopo|Selecao multipla|Lista|N/A|Sim|Treino, nutricao, medical, gamificacao.|
+|3|Destinatario|Email/texto|Email|120|Nao|Obrigatorio para compartilhamento direto.|
+|4|Expiracao|Data/hora|ISO 8601|N/A|Sim|Links devem expirar.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU010-01|Link expiravel|Seguranca|N/A|N/A|Sim|Todo link externo deve ter expiracao.|
+|RN-HU010-02|Escopo minimo|Privacidade|N/A|N/A|Sim|Exportar somente secoes selecionadas.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F010|
+|Prioridade|Should|
+|Entidades principais|war_room.report, war_room.report_export, medical.provider_share_link, security.audit_log|
+|APIs/Contratos|POST /v1/medical/reports/{reportId}/share-links|
+|Fonte funcional|docs/01-product/prd.md|

@@ -1,0 +1,51 @@
+h1. [HU_008] - Conversar com Phoenix AI com historico e fontes internas
+
+p. *SENDO* usuario Phoenix.
+*EU QUERO* conversar com a Phoenix AI usando meu contexto autorizado.
+*PARA* receber explicacoes e proximas acoes coerentes com meu programa, sem violar limites de saude.
+
+h2. Descrição
+
+Chat de IA com RAG, guardrails, citacoes internas, historico e registro de auditoria.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_008.1|o usuario envia pergunta permitida|a IA responde|o sistema retorna resposta com linguagem informativa e citacoes quando houver contexto interno.|
+|=. HU_008.2|a pergunta pede diagnostico ou medicacao|a IA avalia a policy|o sistema bloqueia prescricao e orienta procurar profissional.|
+|=. HU_008.3|nao ha consentimento para dado medico|o contexto e montado|dados medicos nao sao enviados ao provedor de IA.|
+|=. HU_008.4|a resposta e gerada|o fluxo finaliza|prompt, modelo, latencia, custo e decisao de seguranca sao auditados.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Phoenix AI Command Center |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Chat Phoenix AI|Entrada e saida de mensagens.|
+|2|Context Builder|Seleciona dados permitidos para a pergunta.|
+|3|Safety Guardrail|Bloqueia diagnostico, prescricao e sugestoes perigosas.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Mensagem|Texto|Livre|8000|Sim|Entrada do usuario.|
+|2|Escopo de contexto|Selecao multipla|Lista|N/A|Nao|Treino, nutricao, recovery, medical com consentimento.|
+|3|Feedback|Selecao|Positivo/negativo|N/A|Nao|Usado para avaliacao.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU008-01|IA mediada|Arquitetura|N/A|N/A|Sim|UI nunca chama provedor de IA diretamente.|
+|RN-HU008-02|Limite medico|Compliance|N/A|N/A|Sim|IA nao diagnostica nem prescreve.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F008|
+|Prioridade|Should|
+|Entidades principais|ai.ai_conversation, ai.ai_message, ai.ai_recommendation, ai.ai_audit_trail|
+|APIs/Contratos|POST /v1/ai/chat|
+|Fonte funcional|docs/01-product/prd.md|

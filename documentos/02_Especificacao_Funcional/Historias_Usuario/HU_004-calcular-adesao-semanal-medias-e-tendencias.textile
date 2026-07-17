@@ -1,0 +1,51 @@
+h1. [HU_004] - Calcular adesao semanal, medias e tendencias
+
+p. *SENDO* usuario Phoenix.
+*EU QUERO* ver adesao semanal, medias de agua, sono, humor, RPE e tendencias do meu programa.
+*PARA* entender se estou consistente e quais ajustes precisam de atencao.
+
+h2. Descrição
+
+Agrega registros diarios e semanais para produzir indicadores operacionais no War Room, relatorios e alertas.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_004.1|existem logs diarios na semana|o usuario abre indicadores|o sistema calcula adesao, medias e tendencias.|
+|=. HU_004.2|nao existem dados suficientes|o usuario acessa o painel|o sistema exibe estado parcial sem erro.|
+|=. HU_004.3|adesao ou sono caem abaixo do limite|o agregador processa a semana|o sistema cria sinal de atencao.|
+|=. HU_004.4|um log diario e alterado|o painel e reaberto|os indicadores refletem a alteracao.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Indicadores Semanais |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Agregador de metricas|Calcula medias e percentuais.|
+|2|Cards de tendencia|Mostra melhora, estabilidade ou queda.|
+|3|Motor de alertas|Sinaliza desvios relevantes.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Semana|Numero|1-13|2|Sim|Base de agrupamento.|
+|2|Adesao|Calculado|Percentual|0-100|Sim|Treinos cumpridos / dias previstos.|
+|3|Media de sono|Calculado|Horas|0-24|Sim|Base para readiness.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU004-01|Calculo rastreavel|Metricas|N/A|N/A|Sim|Todo indicador deve apontar origem dos dados.|
+|RN-HU004-02|Dados parciais|UX|N/A|N/A|Sim|Nao exibir zero enganoso quando faltarem registros.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F004|
+|Prioridade|Must|
+|Entidades principais|war_room.metric_snapshot, war_room.metric_trend, analytics.product_event|
+|APIs/Contratos|GET /v1/programs/current, GraphQL dashboard|
+|Fonte funcional|docs/01-product/prd.md|

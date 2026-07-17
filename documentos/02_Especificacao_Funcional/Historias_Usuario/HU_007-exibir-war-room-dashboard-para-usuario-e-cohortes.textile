@@ -1,0 +1,51 @@
+h1. [HU_007] - Exibir War Room Dashboard para usuario e cohortes
+
+p. *SENDO* usuario, coach ou gestor autorizado.
+*EU QUERO* visualizar indicadores de progresso, aderencia, risco e proximos passos.
+*PARA* tomar decisoes rapidas sobre treino, recuperacao, nutricao e acompanhamento.
+
+h2. Descrição
+
+Dashboard operacional para usuario individual e visao agregada por coorte/unidade com controles de permissao.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_007.1|o usuario individual acessa o dashboard|a tela carrega|o sistema exibe somente seus proprios indicadores.|
+|=. HU_007.2|um coach autorizado filtra uma coorte|a consulta e executada|o sistema exibe dados agregados e alunos permitidos.|
+|=. HU_007.3|ha alerta de seguranca|o painel e carregado|o alerta aparece com severidade e proxima acao.|
+|=. HU_007.4|o usuario nao tem permissao de coorte|tenta acessar filtro B2B|o sistema nega acesso e registra auditoria.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. War Room Dashboard |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Cards de KPI|Adesao, sono, humor, peso, cintura e score nutricional.|
+|2|Painel de alertas|Mostra dor, baixa adesao, risco de churn e pendencias.|
+|3|Filtro de coorte|Permite staff autorizado segmentar alunos.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Periodo|Filtro|Data|N/A|Sim|Padrao: semana atual.|
+|2|Coorte|Filtro|UUID|36|Nao|Disponivel somente para perfis autorizados.|
+|3|Indicador|Calculado|Numero/texto|N/A|Sim|Origem rastreavel.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU007-01|Isolamento por tenant|Seguranca|N/A|N/A|Sim|Nao cruzar dados de academias ou tenants.|
+|RN-HU007-02|Minimizacao|LGPD|N/A|N/A|Sim|Visoes agregadas devem reduzir exposicao de dados pessoais.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F007|
+|Prioridade|Must|
+|Entidades principais|war_room.dashboard, war_room.metric_snapshot, gym.gym_dashboard, security.audit_log|
+|APIs/Contratos|GraphQL dashboard, GET /v1/gyms/current|
+|Fonte funcional|docs/01-product/prd.md|

@@ -1,0 +1,51 @@
+h1. [HU_015] - Oferecer Phoenix Nutrition System
+
+p. *SENDO* usuario ou aluno de academia.
+*EU QUERO* selecionar e seguir protocolos Nutrition Foundation, Recomp, Hypertrophy, Cut e Peak.
+*PARA* alinhar alimentacao ao objetivo, treino, recuperacao e seguranca.
+
+h2. Descrição
+
+Modulo de nutricao progressiva com protocolos oficiais, meal prep, matriz de substituicao, supplement intelligence, medical integration e relatorios.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_015.1|o usuario informa objetivo e medidas|solicita plano nutricional|o sistema sugere protocolo compativel.|
+|=. HU_015.2|o usuario seleciona Hypertrophy|o plano e gerado|o sistema usa superavit leve e revisao a cada 14 dias.|
+|=. HU_015.3|o usuario seleciona Peak|o sistema avalia safety boundary|o sistema nao permite desidratacao extrema, diureticos ou manipulacao severa de sodio.|
+|=. HU_015.4|ha condicao clinica ou medicamento|o plano e solicitado|o sistema marca revisao profissional como necessaria.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Phoenix Nutrition System |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Seletor de protocolo|Escolhe Foundation, Recomp, Hypertrophy, Cut ou Peak.|
+|2|Plano alimentar|Exibe macros, refeicoes e substituicoes.|
+|3|Safety boundary|Impede estrategias perigosas.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Protocolo|Selecao|Lista|N/A|Sim|Foundation, Recomp, Hypertrophy, Cut, Peak.|
+|2|Objetivo|Selecao|Lista|N/A|Sim|Recomposicao, hipertrofia, definicao etc.|
+|3|Restricoes|Texto/lista|Livre|500|Nao|Pode exigir revisao profissional.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU015-01|Sistema educacional|Compliance|N/A|N/A|Sim|Plano nao substitui nutricionista ou medico.|
+|RN-HU015-02|Protocolos oficiais|Produto|N/A|N/A|Sim|Usar somente protocolos definidos pelo Phoenix Nutrition System.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F015|
+|Prioridade|Must|
+|Entidades principais|nutrition.nutrition_protocol, nutrition.nutrition_phase, nutrition.meal_plan, nutrition.food_replacement_matrix|
+|APIs/Contratos|GET /v1/nutrition/protocols, POST /v1/nutrition/plans/current|
+|Fonte funcional|docs/01-product/prd.md|

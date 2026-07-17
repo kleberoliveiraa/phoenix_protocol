@@ -1,0 +1,52 @@
+h1. [HU_013] - Cadastrar academias, unidades, planos B2B, equipe, alunos e cohortes
+
+p. *SENDO* gestor de academia.
+*EU QUERO* cadastrar minha academia, unidades, planos, equipe, alunos e cohortes.
+*PARA* operar o Phoenix como plataforma digital B2B/B2B2C da academia.
+
+h2. Descrição
+
+Provisionamento de tenant de academia com estrutura B2B, permissoes, unidades, staff, convites e cohortes.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_013.1|um gestor autorizado informa dados validos|salva academia|o sistema cria tenant B2B, unidade e contrato inicial.|
+|=. HU_013.2|o gestor convida staff|o convite e aceito|o sistema atribui papel e permissoes por unidade.|
+|=. HU_013.3|o gestor convida aluno|o aluno aceita|o sistema cria enrollment e solicita consentimentos.|
+|=. HU_013.4|o gestor cria coorte|seleciona alunos elegiveis|o sistema vincula alunos ao grupo sem duplicidade.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Gym Portal - Cadastro |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Cadastro de academia|Registra organizacao, marca e contrato.|
+|2|Gestao de unidades|Mantem locais e horarios.|
+|3|Convite de alunos e staff|Cria vinculos e permissoes.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Nome da academia|Texto|Livre|120|Sim|Obrigatorio.|
+|2|Unidade|Texto|Livre|120|Sim|Ao menos uma unidade ativa.|
+|3|Papel do staff|Selecao|Lista|N/A|Sim|coach, nutritionist, manager, admin.|
+|4|Email do aluno|Texto|Email|120|Sim|Usado para convite.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU013-01|Tenant B2B|Arquitetura|N/A|N/A|Sim|Toda academia opera como tenant ou subtenant isolado.|
+|RN-HU013-02|Consentimento do aluno|LGPD|N/A|N/A|Sim|Aluno precisa aceitar compartilhamento com academia/staff.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F013|
+|Prioridade|Must|
+|Entidades principais|gym.gym_organization, gym.gym_facility, gym.gym_member_enrollment, gym.gym_staff_permission|
+|APIs/Contratos|GET /v1/gyms/current, POST /v1/gyms/{gymId}/members|
+|Fonte funcional|docs/01-product/prd.md|

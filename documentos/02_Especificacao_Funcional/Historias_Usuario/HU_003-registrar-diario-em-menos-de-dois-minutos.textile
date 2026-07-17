@@ -1,0 +1,54 @@
+h1. [HU_003] - Registrar diario em menos de dois minutos
+
+p. *SENDO* usuario Phoenix.
+*EU QUERO* registrar rapidamente treino cumprido, agua, sono, humor, RPE, dor e observacoes.
+*PARA* manter historico diario sem friccao e alimentar indicadores de progresso e seguranca.
+
+h2. Descrição
+
+Check-in diario com campos essenciais para aderencia, recuperacao e risco, desenhado para uso mobile e preenchimento rapido.
+
+h2. Critérios de Aceitação
+
+|_{background:#eeeeee; }.#|_{background:#eeeeee; }. DADO QUE|_{background:#eeeeee; }. QUANDO|_{background:#eeeeee; }. ENTÃO|
+|=. HU_003.1|o usuario possui programa ativo|abre o check-in do dia|o sistema exibe campos pre-configurados para o dia atual.|
+|=. HU_003.2|todos os campos obrigatorios estao preenchidos|o usuario salva o check-in|o sistema registra o diario e atualiza indicadores.|
+|=. HU_003.3|ha dor articular informada|o check-in e salvo|o sistema cria alerta de seguranca para avaliacao de regressao.|
+|=. HU_003.4|o usuario tenta salvar sem campo obrigatorio|clica em salvar|o sistema destaca os campos pendentes e nao persiste o log.|
+
+h2. Protótipo de Tela
+
+|_{background:#eeeeee; }. Check-in Diario |
+|Protótipo visual a ser produzido no Design System Phoenix. A implementação deve seguir os componentes e campos descritos nesta história, mantendo acessibilidade, responsividade, auditoria e limites de segurança aplicáveis.|
+
+h3. Componentes
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Descrição|
+|1|Toggle de treino cumprido|Registra conclusao da sessao.|
+|2|Steppers de metricas|Permite informar agua, sono, humor e RPE rapidamente.|
+|3|Campo de dor/observacoes|Captura sinais de risco e contexto livre.|
+
+h3. Campos
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|1|Treino cumprido|Booleano|Sim/Nao|N/A|Sim|Obrigatorio para calcular adesao.|
+|2|Agua|Numero|Litros|0-12|Sim|Validar intervalo realista.|
+|3|Sono|Numero|Horas|0-24|Sim|Impacta readiness.|
+|4|Humor|Numero|1-5|1|Sim|Escala simples.|
+|5|RPE|Numero|1-10|2|Sim|Comparar com RPE alvo.|
+|6|Dor|Texto|Livre|500|Nao|Aciona regra da dor quando preenchido.|
+
+h3. Regra de negócios/Evidências de Banco de Dados
+
+|_{background:#eeeeee; }.ID|_{background:#eeeeee; }.Nome|_{background:#eeeeee; }.Tipo|_{background:#eeeeee; }.Formato|_{background:#eeeeee; }.Tamanho|_{background:#eeeeee; }.Obrigatório|_{background:#eeeeee; }.Regra|
+|RN-HU003-01|Check-in unico por dia|Integridade|N/A|N/A|Sim|Evitar duplicidade por user_id e program_day.|
+|RN-HU003-02|Validacao de faixas|Qualidade|N/A|N/A|Sim|Numeros fora de faixa devem ser rejeitados.|
+
+h2. Rastreabilidade
+
+|_{background:#eeeeee; }.Item|_{background:#eeeeee; }.Referência|
+|Requisito funcional|PRD-F003|
+|Prioridade|Must|
+|Entidades principais|body.workout_session, recovery.sleep_record, recovery.pain_report, body.rpe_record|
+|APIs/Contratos|POST /v1/daily-logs, POST /v1/workout-sessions/{sessionId}/complete|
+|Fonte funcional|docs/01-product/prd.md|
