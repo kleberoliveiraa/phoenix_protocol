@@ -1,0 +1,93 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "meta": {
+    "product": "Phoenix Protocol(R)",
+    "system": "Phoenix Design System",
+    "version": "1.0.0",
+    "figmaFileKey": "dcBV6KoNXNBZ0ZDOLI9y40",
+    "figmaFileUrl": "https://www.figma.com/design/dcBV6KoNXNBZ0ZDOLI9y40",
+    "source": "docs/07-ux-ui/design-system.md"
+  },
+  "color": {
+    "primitive": {
+      "black": { "1000": { "$type": "color", "$value": "#000000" } },
+      "white": { "1000": { "$type": "color", "$value": "#FFFFFF" } },
+      "slate": {
+        "950": { "$type": "color", "$value": "#0B0F14" },
+        "900": { "$type": "color", "$value": "#121821" },
+        "850": { "$type": "color", "$value": "#182231" },
+        "700": { "$type": "color", "$value": "#334155" },
+        "500": { "$type": "color", "$value": "#64748B" },
+        "400": { "$type": "color", "$value": "#94A3B8" },
+        "100": { "$type": "color", "$value": "#F8FAFC" }
+      },
+      "ember": {
+        "600": { "$type": "color", "$value": "#E25822" },
+        "500": { "$type": "color", "$value": "#F97316" },
+        "300": { "$type": "color", "$value": "#FDBA74" }
+      },
+      "teal": {
+        "500": { "$type": "color", "$value": "#2DD4BF" },
+        "300": { "$type": "color", "$value": "#5EEAD4" }
+      },
+      "green": { "500": { "$type": "color", "$value": "#22C55E" } },
+      "amber": { "500": { "$type": "color", "$value": "#F59E0B" } },
+      "red": { "500": { "$type": "color", "$value": "#EF4444" } }
+    },
+    "semantic": {
+      "bg": {
+        "base": { "$type": "color", "$value": "{color.primitive.slate.950}" },
+        "surface": { "$type": "color", "$value": "{color.primitive.slate.900}" },
+        "surfaceAlt": { "$type": "color", "$value": "{color.primitive.slate.850}" },
+        "primary": { "$type": "color", "$value": "{color.primitive.ember.600}" },
+        "secondary": { "$type": "color", "$value": "{color.primitive.teal.500}" },
+        "success": { "$type": "color", "$value": "{color.primitive.green.500}" },
+        "warning": { "$type": "color", "$value": "{color.primitive.amber.500}" },
+        "danger": { "$type": "color", "$value": "{color.primitive.red.500}" }
+      },
+      "text": {
+        "primary": { "$type": "color", "$value": "{color.primitive.slate.100}" },
+        "muted": { "$type": "color", "$value": "{color.primitive.slate.400}" },
+        "inverse": { "$type": "color", "$value": "{color.primitive.black.1000}" },
+        "onPrimary": { "$type": "color", "$value": "{color.primitive.white.1000}" }
+      },
+      "border": {
+        "subtle": { "$type": "color", "$value": "{color.primitive.slate.700}" },
+        "strong": { "$type": "color", "$value": "{color.primitive.slate.500}" },
+        "focus": { "$type": "color", "$value": "{color.primitive.teal.500}" }
+      }
+    }
+  },
+  "spacing": {
+    "1": { "$type": "dimension", "$value": "4px" },
+    "2": { "$type": "dimension", "$value": "8px" },
+    "3": { "$type": "dimension", "$value": "12px" },
+    "4": { "$type": "dimension", "$value": "16px" },
+    "6": { "$type": "dimension", "$value": "24px" },
+    "8": { "$type": "dimension", "$value": "32px" },
+    "10": { "$type": "dimension", "$value": "40px" }
+  },
+  "radius": {
+    "control": { "$type": "dimension", "$value": "6px" },
+    "card": { "$type": "dimension", "$value": "8px" },
+    "panel": { "$type": "dimension", "$value": "10px" },
+    "pill": { "$type": "dimension", "$value": "999px" }
+  },
+  "typography": {
+    "fontFamily": {
+      "sans": { "$type": "fontFamily", "$value": "Inter" }
+    },
+    "style": {
+      "display": { "$type": "typography", "$value": { "fontFamily": "{typography.fontFamily.sans}", "fontWeight": "700", "fontSize": "40px", "lineHeight": "48px" } },
+      "heading1": { "$type": "typography", "$value": { "fontFamily": "{typography.fontFamily.sans}", "fontWeight": "700", "fontSize": "32px", "lineHeight": "40px" } },
+      "heading2": { "$type": "typography", "$value": { "fontFamily": "{typography.fontFamily.sans}", "fontWeight": "600", "fontSize": "24px", "lineHeight": "32px" } },
+      "body": { "$type": "typography", "$value": { "fontFamily": "{typography.fontFamily.sans}", "fontWeight": "400", "fontSize": "16px", "lineHeight": "24px" } },
+      "bodySmall": { "$type": "typography", "$value": { "fontFamily": "{typography.fontFamily.sans}", "fontWeight": "400", "fontSize": "14px", "lineHeight": "20px" } },
+      "caption": { "$type": "typography", "$value": { "fontFamily": "{typography.fontFamily.sans}", "fontWeight": "500", "fontSize": "12px", "lineHeight": "16px" } }
+    }
+  },
+  "elevation": {
+    "subtle": { "$type": "shadow", "$value": { "color": "#00000033", "offsetX": "0px", "offsetY": "8px", "blur": "24px", "spread": "0px" } },
+    "focus": { "$type": "shadow", "$value": { "color": "#2DD4BF40", "offsetX": "0px", "offsetY": "0px", "blur": "0px", "spread": "3px" } }
+  }
+}
