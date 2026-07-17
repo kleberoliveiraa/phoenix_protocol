@@ -1,0 +1,250 @@
+scalar Date
+scalar DateTime
+scalar JSON
+
+type Query {
+  me: UserContext!
+  currentProgram: ProgramPlan
+  dailyLogs(range: DateRangeInput): [DailyLog!]!
+  currentNutritionPlan: NutritionPlan
+  nutritionProtocols: [NutritionProtocol!]!
+  gymContext: GymContext
+  gymMembers(gymId: ID!, cohortId: ID): [GymMemberEnrollment!]!
+  assessments: [Assessment!]!
+  dashboard: WarRoomDashboard!
+  medicalTimeline: [MedicalTimelineItem!]!
+  gamification: GamificationProfile!
+}
+
+type Mutation {
+  completeOnboarding(input: OnboardingInput!): ProgramPlan!
+  createDailyLog(input: DailyLogInput!): DailyLog!
+  completeWorkoutSession(sessionId: ID!, input: CompleteWorkoutInput!): DailyLogResult!
+  createNutritionPlan(input: NutritionPlanInput!): NutritionPlan!
+  createNutritionCheckIn(input: NutritionCheckInInput!): NutritionScore!
+  createNutritionReview(input: NutritionReviewInput!): NutritionReviewResult!
+  inviteGymMember(gymId: ID!, input: GymMemberInput!): GymMemberEnrollment!
+  createAssessment(input: AssessmentInput!): Assessment!
+  createLabResult(input: LabResultInput!): LabResult!
+  createAiChatResponse(input: AiChatInput!): AiChatResponse!
+  revokeConsent(consentId: ID!): ConsentRecord!
+}
+
+type Subscription {
+  dashboardUpdated: WarRoomDashboard!
+  safetyAlertCreated: SafetyAlert!
+  aiRecommendationCreated: AiRecommendation!
+}
+
+type UserContext {
+  id: ID!
+  tenantId: ID!
+  email: String
+  profile: UserProfile!
+  entitlements: [String!]!
+}
+
+type UserProfile {
+  displayName: String
+  timezone: String!
+  ageRange: String
+  primaryGoal: String
+}
+
+type ConsentRecord {
+  id: ID!
+  purpose: String!
+  status: ConsentStatus!
+  grantedAt: DateTime
+  revokedAt: DateTime
+}
+
+enum ConsentStatus { GRANTED REVOKED EXPIRED }
+
+type ProgramPlan {
+  id: ID!
+  phase: ProgramPhase!
+  dayNumber: Int!
+  startDate: Date!
+  currentWeek: TrainingWeek
+}
+
+enum ProgramPhase { FOUNDATION STRENGTH PERFORMANCE GRADUATION }
+
+type TrainingWeek {
+  weekNumber: Int!
+  isDeload: Boolean!
+  targetRpeMin: Int!
+  targetRpeMax: Int!
+  sessions: [WorkoutSession!]!
+}
+
+type WorkoutSession {
+  id: ID!
+  dayNumber: Int!
+  title: String!
+  focus: String!
+  targetRpe: String!
+  completedAt: DateTime
+}
+
+type DailyLog {
+  id: ID!
+  programDay: Int!
+  workoutCompleted: Boolean!
+  waterLiters: Float!
+  sleepHours: Float!
+  mood: Int!
+  rpe: Int!
+  notes: String
+  safetyAlerts: [SafetyAlert!]!
+}
+
+type DailyLogResult {
+  log: DailyLog!
+  adherenceScore: Float!
+  readinessScore: Float!
+  xpGranted: Int!
+  recommendation: AiRecommendation
+}
+
+type Assessment {
+  id: ID!
+  assessmentDay: Int!
+  pushups2Min: Int
+  squats2Min: Int
+  situps2Min: Int
+  pullupsMax: Int
+  plankSeconds: Int
+  run32KmMinutes: Float
+  waistCm: Float
+  weightKg: Float
+}
+
+type NutritionProtocol {
+  code: NutritionProtocolCode!
+  name: String!
+  objective: String!
+  safetyBoundary: String
+}
+
+enum NutritionProtocolCode { FOUNDATION RECOMP HYPERTROPHY CUT PEAK }
+
+type NutritionPlan {
+  id: ID!
+  protocol: NutritionProtocol!
+  calorieStrategy: String
+  proteinGramsPerDay: Float
+  fatGramsPerDay: Float
+  carbStrategy: String
+  reviewCadenceDays: Int!
+  requiresProfessionalReview: Boolean!
+}
+
+type NutritionScore {
+  score: Int!
+  tier: NutritionScoreTier!
+  components: JSON!
+}
+
+enum NutritionScoreTier { CORRECTION BRONZE SILVER GOLD }
+
+type NutritionReviewResult {
+  decision: NutritionReviewDecision!
+  explanation: String!
+  safetyAlerts: [String!]!
+}
+
+enum NutritionReviewDecision { MAINTAIN ADD_CARBS_25_40G REDUCE_CARBS_20_30G_OR_FAT MAINTENANCE_WEEK PROFESSIONAL_REVIEW_REQUIRED }
+
+type GymContext {
+  gymId: ID
+  facilityId: ID
+  cohortId: ID
+  role: GymRole
+  permissions: [String!]!
+}
+
+enum GymRole { MEMBER COACH NUTRITIONIST MANAGER ADMIN }
+
+type GymMemberEnrollment {
+  id: ID!
+  gymId: ID!
+  facilityId: ID
+  userId: ID
+  cohortId: ID
+  status: GymEnrollmentStatus!
+}
+
+enum GymEnrollmentStatus { INVITED ACTIVE PAUSED CANCELLED }
+
+type WarRoomDashboard {
+  adherence: Float!
+  latestWeightKg: Float
+  latestWaistCm: Float
+  sleepAverage: Float
+  moodAverage: Float
+  riskLevel: RiskLevel!
+  trends: JSON!
+}
+
+enum RiskLevel { LOW MODERATE HIGH ESCALATE }
+
+type LabResult {
+  id: ID!
+  biomarkerCode: String!
+  value: Float!
+  unit: String!
+  collectedAt: DateTime!
+  trend: String
+}
+
+type MedicalTimelineItem {
+  id: ID!
+  itemType: String!
+  title: String!
+  occurredAt: DateTime!
+  summary: String
+}
+
+type AiChatResponse {
+  message: String!
+  safetyLevel: RiskLevel!
+  citations: [String!]!
+  recommendedActions: [String!]!
+}
+
+type AiRecommendation {
+  id: ID!
+  category: String!
+  message: String!
+  confidence: Float!
+  safetyLevel: RiskLevel!
+  createdAt: DateTime!
+}
+
+type SafetyAlert {
+  id: ID!
+  severity: RiskLevel!
+  message: String!
+  createdAt: DateTime!
+}
+
+type GamificationProfile {
+  xp: Int!
+  rank: String!
+  streakDays: Int!
+  badges: [String!]!
+}
+
+input DateRangeInput { from: Date, to: Date }
+input OnboardingInput { goals: [String!]!, readinessAnswers: JSON!, consentIds: [ID!]! }
+input DailyLogInput { programDay: Int!, workoutCompleted: Boolean!, waterLiters: Float!, sleepHours: Float!, mood: Int!, rpe: Int!, painReport: String, notes: String }
+input CompleteWorkoutInput { completed: Boolean!, rpe: Int!, notes: String }
+input NutritionPlanInput { goal: String!, weightKg: Float!, waistCm: Float!, trainingFocus: String!, restrictions: [String!], hasClinicalCondition: Boolean }
+input NutritionCheckInInput { protein: Int!, hydration: Int!, fruitsVegetables: Int!, plannedMeals: Int!, trainingAlignment: Int!, sleep: Int!, digestion: Int!, alcoholUltraProcessedControl: Int! }
+input NutritionReviewInput { periodDays: Int!, weightTrend: String!, waistTrend: String!, strengthTrend: String!, sleepTrend: String!, moodTrend: String! }
+input GymMemberInput { email: String!, facilityId: ID!, cohortId: ID, goal: String }
+input AssessmentInput { assessmentDay: Int!, pushups2Min: Int, squats2Min: Int, situps2Min: Int, pullupsMax: Int, plankSeconds: Int, run32KmMinutes: Float, waistCm: Float, weightKg: Float }
+input LabResultInput { biomarkerCode: String!, value: Float!, unit: String!, collectedAt: DateTime!, referenceRange: String, consentId: ID! }
+input AiChatInput { message: String!, contextScope: [String!] }

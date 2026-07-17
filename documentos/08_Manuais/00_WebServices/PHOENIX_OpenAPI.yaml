@@ -1,0 +1,618 @@
+# Contrato fixado em 3.1.1 por compatibilidade ampla de tooling.
+# A referencia oficial latest verificada durante a criacao era 3.2.0.
+openapi: 3.1.1
+info:
+  title: Phoenix Protocol API
+  version: 0.1.0
+  summary: REST API para web, mobile, admin e integracoes do Phoenix Protocol.
+servers:
+  - url: https://api.phoenixprotocol.example.com
+    description: Production
+  - url: https://staging-api.phoenixprotocol.example.com
+    description: Staging
+security:
+  - bearerAuth: []
+tags:
+  - name: Identity
+  - name: Programs
+  - name: Daily Logs
+  - name: Nutrition
+  - name: Gyms
+  - name: Assessments
+  - name: Medical
+  - name: AI
+  - name: Gamification
+  - name: Billing
+  - name: Admin
+paths:
+  /v1/me:
+    get:
+      tags: [Identity]
+      operationId: getCurrentUser
+      summary: Retorna usuario autenticado, perfil, tenant e entitlements.
+      responses:
+        "200":
+          description: Usuario atual
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserContext"
+  /v1/onboarding:
+    post:
+      tags: [Identity]
+      operationId: completeOnboarding
+      summary: Completa onboarding, consentimentos e prontidao.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OnboardingRequest"
+      responses:
+        "201":
+          description: Onboarding concluido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProgramPlan"
+  /v1/programs/current:
+    get:
+      tags: [Programs]
+      operationId: getCurrentProgram
+      summary: Retorna plano ativo de 90 dias.
+      responses:
+        "200":
+          description: Plano ativo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProgramPlan"
+  /v1/workout-sessions/{sessionId}/complete:
+    post:
+      tags: [Daily Logs]
+      operationId: completeWorkoutSession
+      summary: Conclui uma sessao de treino e publica eventos de progresso.
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompleteWorkoutRequest"
+      responses:
+        "200":
+          description: Sessao concluida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DailyLogResult"
+  /v1/daily-logs:
+    post:
+      tags: [Daily Logs]
+      operationId: createDailyLog
+      summary: Registra agua, sono, humor, RPE, dor e observacoes.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DailyLogInput"
+      responses:
+        "201":
+          description: Log criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DailyLogResult"
+  /v1/assessments:
+    post:
+      tags: [Assessments]
+      operationId: createAssessment
+      summary: Registra avaliacao Dia 0, 30, 60 ou 90.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssessmentInput"
+      responses:
+        "201":
+          description: Avaliacao registrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assessment"
+  /v1/nutrition/protocols:
+    get:
+      tags: [Nutrition]
+      operationId: listNutritionProtocols
+      summary: Lista protocolos Phoenix Nutrition System.
+      responses:
+        "200":
+          description: Protocolos nutricionais
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NutritionProtocol"
+  /v1/nutrition/plans/current:
+    get:
+      tags: [Nutrition]
+      operationId: getCurrentNutritionPlan
+      summary: Retorna plano nutricional ativo, macros, refeicoes e carb cycling.
+      responses:
+        "200":
+          description: Plano nutricional atual
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NutritionPlan"
+    post:
+      tags: [Nutrition]
+      operationId: createNutritionPlan
+      summary: Cria plano nutricional baseado em objetivo, medidas, treino, sono e restricoes.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NutritionPlanInput"
+      responses:
+        "201":
+          description: Plano criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NutritionPlan"
+  /v1/nutrition/check-ins:
+    post:
+      tags: [Nutrition]
+      operationId: createNutritionCheckIn
+      summary: Registra score nutricional, digestao, refeicoes, proteina, hidratacao e alinhamento ao treino.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NutritionCheckInInput"
+      responses:
+        "201":
+          description: Check-in nutricional registrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NutritionScore"
+  /v1/nutrition/reviews:
+    post:
+      tags: [Nutrition]
+      operationId: createNutritionReview
+      summary: Executa revisao de 14 dias e recomenda manter ou ajustar macros com limites seguros.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NutritionReviewInput"
+      responses:
+        "201":
+          description: Revisao criada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NutritionReviewResult"
+  /v1/gyms/current:
+    get:
+      tags: [Gyms]
+      operationId: getCurrentGymContext
+      summary: Retorna academia, unidade, coorte e permissoes do usuario autenticado.
+      responses:
+        "200":
+          description: Contexto de academia
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GymContext"
+  /v1/gyms/{gymId}/members:
+    get:
+      tags: [Gyms]
+      operationId: listGymMembers
+      summary: Lista alunos da academia para staff autorizado.
+      parameters:
+        - $ref: "#/components/parameters/GymId"
+        - name: cohortId
+          in: query
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Alunos da academia
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GymMemberEnrollment"
+    post:
+      tags: [Gyms]
+      operationId: inviteGymMember
+      summary: Convida aluno para programa Phoenix da academia.
+      parameters:
+        - $ref: "#/components/parameters/GymId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GymMemberInput"
+      responses:
+        "201":
+          description: Aluno convidado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GymMemberEnrollment"
+  /v1/medical/lab-results:
+    post:
+      tags: [Medical]
+      operationId: createLabResult
+      summary: Registra biomarcador ou resultado de exame com consentimento.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LabResultInput"
+      responses:
+        "201":
+          description: Resultado criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LabResult"
+  /v1/medical/reports/{reportId}/share-links:
+    post:
+      tags: [Medical]
+      operationId: createMedicalReportShareLink
+      summary: Cria link consentido e expiravel para relatorio de saude.
+      parameters:
+        - $ref: "#/components/parameters/ReportId"
+      responses:
+        "201":
+          description: Link criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShareLink"
+  /v1/ai/chat:
+    post:
+      tags: [AI]
+      operationId: createAiChatResponse
+      summary: Envia mensagem ao Phoenix AI Engine com guardrails.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiChatRequest"
+      responses:
+        "200":
+          description: Resposta de IA
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiChatResponse"
+  /v1/gamification/me:
+    get:
+      tags: [Gamification]
+      operationId: getGamificationProfile
+      summary: Retorna XP, patente, streaks, badges e desafios.
+      responses:
+        "200":
+          description: Perfil de gamificacao
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GamificationProfile"
+  /v1/billing/checkout:
+    post:
+      tags: [Billing]
+      operationId: createCheckout
+      summary: Cria sessao de checkout para assinatura SaaS.
+      responses:
+        "201":
+          description: Checkout criado
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [url]
+                properties:
+                  url: { type: string, format: uri }
+  /v1/admin/users:
+    get:
+      tags: [Admin]
+      operationId: listAdminUsers
+      summary: Lista usuarios para administradores autorizados.
+      parameters:
+        - name: search
+          in: query
+          schema: { type: string }
+        - name: status
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Lista paginada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserList"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    ReportId:
+      name: reportId
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    GymId:
+      name: gymId
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+  schemas:
+    UserContext:
+      type: object
+      required: [id, tenantId, email, entitlements]
+      properties:
+        id: { type: string, format: uuid }
+        tenantId: { type: string, format: uuid }
+        email: { type: string, format: email }
+        entitlements:
+          type: array
+          items: { type: string }
+    OnboardingRequest:
+      type: object
+      required: [goals, readinessAnswers, consentIds]
+      properties:
+        goals:
+          type: array
+          items: { type: string }
+        readinessAnswers:
+          type: object
+          additionalProperties: true
+        consentIds:
+          type: array
+          items: { type: string, format: uuid }
+    ProgramPlan:
+      type: object
+      required: [id, phase, dayNumber, startDate]
+      properties:
+        id: { type: string, format: uuid }
+        phase: { type: string, enum: [foundation, strength, performance, graduation] }
+        dayNumber: { type: integer, minimum: 0, maximum: 90 }
+        startDate: { type: string, format: date }
+    CompleteWorkoutRequest:
+      type: object
+      required: [rpe, completed]
+      properties:
+        completed: { type: boolean }
+        rpe: { type: integer, minimum: 1, maximum: 10 }
+        notes: { type: string, maxLength: 2000 }
+    DailyLogInput:
+      type: object
+      required: [programDay, workoutCompleted, waterLiters, sleepHours, mood, rpe]
+      properties:
+        programDay: { type: integer, minimum: 1, maximum: 90 }
+        workoutCompleted: { type: boolean }
+        waterLiters: { type: number, minimum: 0, maximum: 12 }
+        sleepHours: { type: number, minimum: 0, maximum: 24 }
+        mood: { type: integer, minimum: 1, maximum: 5 }
+        rpe: { type: integer, minimum: 1, maximum: 10 }
+        painReport: { type: string }
+        notes: { type: string }
+    DailyLogResult:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        adherenceScore: { type: number }
+        readinessScore: { type: number }
+        xpGranted: { type: integer }
+        safetyAlerts:
+          type: array
+          items: { type: string }
+    AssessmentInput:
+      type: object
+      required: [assessmentDay]
+      properties:
+        assessmentDay: { type: integer, enum: [0, 30, 60, 90] }
+        pushups2Min: { type: integer, minimum: 0 }
+        squats2Min: { type: integer, minimum: 0 }
+        situps2Min: { type: integer, minimum: 0 }
+        pullupsMax: { type: integer, minimum: 0 }
+        plankSeconds: { type: integer, minimum: 0 }
+        run32KmMinutes: { type: number, minimum: 0 }
+        waistCm: { type: number, minimum: 0 }
+        weightKg: { type: number, minimum: 0 }
+    Assessment:
+      allOf:
+        - $ref: "#/components/schemas/AssessmentInput"
+        - type: object
+          properties:
+            id: { type: string, format: uuid }
+    NutritionProtocol:
+      type: object
+      required: [code, name, objective]
+      properties:
+        code:
+          type: string
+          enum: [foundation, recomp, hypertrophy, cut, peak]
+        name: { type: string }
+        objective: { type: string }
+        safetyBoundary: { type: string }
+    NutritionPlanInput:
+      type: object
+      required: [goal, weightKg, waistCm, trainingFocus]
+      properties:
+        goal:
+          type: string
+          enum: [foundation, recomposition, hypertrophy, cut, peak]
+        weightKg: { type: number, minimum: 20, maximum: 300 }
+        waistCm: { type: number, minimum: 30, maximum: 250 }
+        trainingFocus: { type: string }
+        restrictions:
+          type: array
+          items: { type: string }
+        hasClinicalCondition: { type: boolean, default: false }
+    NutritionPlan:
+      type: object
+      required: [id, protocol, reviewCadenceDays]
+      properties:
+        id: { type: string, format: uuid }
+        protocol:
+          $ref: "#/components/schemas/NutritionProtocol"
+        calorieStrategy: { type: string }
+        proteinGramsPerDay: { type: number }
+        fatGramsPerDay: { type: number }
+        carbStrategy: { type: string }
+        reviewCadenceDays: { type: integer, enum: [14] }
+        requiresProfessionalReview: { type: boolean }
+    NutritionCheckInInput:
+      type: object
+      required: [protein, hydration, fruitsVegetables, plannedMeals, trainingAlignment, sleep, digestion, alcoholUltraProcessedControl]
+      properties:
+        protein: { type: integer, minimum: 0, maximum: 20 }
+        hydration: { type: integer, minimum: 0, maximum: 15 }
+        fruitsVegetables: { type: integer, minimum: 0, maximum: 15 }
+        plannedMeals: { type: integer, minimum: 0, maximum: 15 }
+        trainingAlignment: { type: integer, minimum: 0, maximum: 15 }
+        sleep: { type: integer, minimum: 0, maximum: 10 }
+        digestion: { type: integer, minimum: 0, maximum: 5 }
+        alcoholUltraProcessedControl: { type: integer, minimum: 0, maximum: 5 }
+    NutritionScore:
+      type: object
+      required: [score, tier]
+      properties:
+        score: { type: integer, minimum: 0, maximum: 100 }
+        tier: { type: string, enum: [correction, bronze, silver, gold] }
+        components:
+          $ref: "#/components/schemas/NutritionCheckInInput"
+    NutritionReviewInput:
+      type: object
+      required: [periodDays, weightTrend, waistTrend, strengthTrend, sleepTrend, moodTrend]
+      properties:
+        periodDays: { type: integer, enum: [14, 30, 60, 90] }
+        weightTrend: { type: string, enum: [down, stable, slow_up, fast_up] }
+        waistTrend: { type: string, enum: [down, stable, slow_up, fast_up] }
+        strengthTrend: { type: string, enum: [down, stable, up] }
+        sleepTrend: { type: string, enum: [worse, stable, better] }
+        moodTrend: { type: string, enum: [worse, stable, better] }
+    NutritionReviewResult:
+      type: object
+      required: [decision, explanation]
+      properties:
+        decision:
+          type: string
+          enum: [maintain, add_carbs_25_40g, reduce_carbs_20_30g_or_fat, maintenance_week, professional_review_required]
+        explanation: { type: string }
+        safetyAlerts:
+          type: array
+          items: { type: string }
+    GymContext:
+      type: object
+      properties:
+        gymId: { type: string, format: uuid }
+        facilityId: { type: string, format: uuid }
+        cohortId: { type: string, format: uuid }
+        role: { type: string, enum: [member, coach, nutritionist, manager, admin] }
+        permissions:
+          type: array
+          items: { type: string }
+    GymMemberInput:
+      type: object
+      required: [email, facilityId]
+      properties:
+        email: { type: string, format: email }
+        facilityId: { type: string, format: uuid }
+        cohortId: { type: string, format: uuid }
+        goal: { type: string }
+    GymMemberEnrollment:
+      type: object
+      required: [id, gymId, status]
+      properties:
+        id: { type: string, format: uuid }
+        gymId: { type: string, format: uuid }
+        facilityId: { type: string, format: uuid }
+        userId: { type: string, format: uuid }
+        cohortId: { type: string, format: uuid }
+        status: { type: string, enum: [invited, active, paused, cancelled] }
+    LabResultInput:
+      type: object
+      required: [biomarkerCode, value, unit, collectedAt, consentId]
+      properties:
+        biomarkerCode: { type: string }
+        value: { type: number }
+        unit: { type: string }
+        collectedAt: { type: string, format: date-time }
+        referenceRange: { type: string }
+        consentId: { type: string, format: uuid }
+    LabResult:
+      allOf:
+        - $ref: "#/components/schemas/LabResultInput"
+        - type: object
+          properties:
+            id: { type: string, format: uuid }
+            trend: { type: string, enum: [unknown, improving, stable, worsening] }
+    ShareLink:
+      type: object
+      required: [url, expiresAt]
+      properties:
+        url: { type: string, format: uri }
+        expiresAt: { type: string, format: date-time }
+    AiChatRequest:
+      type: object
+      required: [message]
+      properties:
+        message: { type: string, maxLength: 8000 }
+        contextScope:
+          type: array
+          items: { type: string }
+    AiChatResponse:
+      type: object
+      required: [message, safetyLevel]
+      properties:
+        message: { type: string }
+        safetyLevel: { type: string, enum: [normal, caution, escalate] }
+        citations:
+          type: array
+          items: { type: string }
+        recommendedActions:
+          type: array
+          items: { type: string }
+    GamificationProfile:
+      type: object
+      properties:
+        xp: { type: integer }
+        rank: { type: string }
+        streakDays: { type: integer }
+        badges:
+          type: array
+          items: { type: string }
+    UserList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserContext"
+        nextCursor: { type: string }
