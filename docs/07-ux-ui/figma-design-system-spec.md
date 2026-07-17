@@ -13,12 +13,12 @@ Criado em 2026-07-17:
 - 5 colecoes de variaveis: primitives, color, spacing, radius e type.
 - 48 variaveis Figma com code syntax para handoff.
 - 6 estilos de texto e 2 estilos de efeito.
-- 3 paginas compactadas por limite do plano Starter.
-- Pagina `00 Foundations + Brand` preenchida com capa, principios, tokens, tipografia, escalas e logo.
-- Pagina `01 Components` criada com componentes base.
-- Pagina `02 Screens` criada com 5 telas mobile, War Room desktop e Admin/Gym.
-
-Limitacao operacional: o plano Figma Starter atingiu o limite de chamadas MCP durante a validacao final. A pagina `00 Foundations + Brand` recebeu reparo automatizado de altura de texto; as paginas `01 Components` e `02 Screens` devem passar por uma ultima revisao visual/manual ou por nova rodada MCP apos reset/upgrade do limite.
+- Plano Figma Professional confirmado e usado para expandir a biblioteca.
+- 7 paginas profissionais criadas: capa, foundations, componentes, mobile, web, admin e logo.
+- Paginas compactadas originais preservadas como `_Archive / Compact ...`.
+- Reparo automatizado de texto e containers executado nas 7 paginas profissionais.
+- QA visual executado por capturas dos frames `Mobile / Today`, `Components / Button`, `Web / War Room Dashboard`, `Admin / Gym Performance Network` e `Logo / Specification`.
+- Auditoria estrutural final: 7 paginas auditadas, 0 textos colapsados e 0 overflow de sidebar.
 
 ## Fonte de Verdade
 
@@ -31,11 +31,14 @@ Limitacao operacional: o plano Figma Starter atingiu o limite de chamadas MCP du
 
 | Pagina | Conteudo |
 |---|---|
-| `00 Foundations + Brand` | Identidade, principios, tokens e especificacao da logo. |
-| `01 Components` | Biblioteca inicial de componentes Phoenix. |
-| `02 Screens` | Telas mobile, Web War Room e Admin Gym. |
-
-Nota: a estrutura foi compactada em 3 paginas porque o plano Figma Starter conectado limita o arquivo a 3 paginas. Se o projeto migrar para Professional, separar em `00 Cover`, `01 Foundations`, `02 Components`, `03 Mobile Core`, `04 Web War Room`, `05 Admin Gym` e `06 Logo Specification`.
+| `00 Cover` | Capa, posicionamento da marca e principios de experiencia. |
+| `01 Foundations` | Tokens de cor, tipografia, espacamento, radius e elevacao. |
+| `02 Components` | Biblioteca inicial de componentes Phoenix. |
+| `03 Mobile Core` | Telas mobile Today, War Room, Nutrition, AI Command e Medical. |
+| `04 Web War Room` | Dashboard desktop para usuario/coach. |
+| `05 Admin Gym` | Dashboard administrativo para academias e redes. |
+| `06 Logo Specification` | Simbolo, lockups, regras de uso e area de protecao. |
+| `_Archive / Compact ...` | Paginas compactadas preservadas apenas como historico. |
 
 ## Tokens Figma
 
@@ -124,4 +127,4 @@ O simbolo combina chama, escudo e seta ascendente:
 - Telas principais representam fluxos reais, nao landing page.
 - Logo tem especificacao visual e exemplos de uso.
 - Handoff inclui URL do Figma e arquivos versionados no Git.
-- Antes de uso em sprint de desenvolvimento, executar QA visual final nas paginas `01 Components` e `02 Screens`.
+- QA visual final executado nas paginas profissionais em 2026-07-17.

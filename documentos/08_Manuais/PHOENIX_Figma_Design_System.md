@@ -12,19 +12,28 @@ Estabelecer a estrutura Figma oficial do Phoenix Protocol(R) para tokens, compon
 
 ## Status
 
-O arquivo Figma foi criado e populado com foundations, componentes, telas e logo em 2026-07-17.
+O arquivo Figma foi criado, expandido no plano Professional e populado com foundations, componentes, telas e logo em 2026-07-17.
 
-Restricao: o plano Figma Starter atingiu o limite de chamadas MCP antes da validacao final automatizada das paginas `01 Components` e `02 Screens`. A pagina `00 Foundations + Brand` ja recebeu reparo automatizado de altura de texto.
+Validacao executada:
+
+- 7 paginas profissionais criadas.
+- 5 colecoes de variaveis, 48 tokens, 6 estilos de texto e 2 estilos de efeito.
+- Reparo automatizado de textos e containers nas paginas profissionais.
+- Capturas revisadas para mobile, componentes, dashboard web, admin academias e logo.
+- Auditoria estrutural final sem textos colapsados e sem overflow de sidebar.
 
 ## Estrutura
 
 | Area | Entrega |
 |---|---|
-| `00 Foundations + Brand` | Cores, tipografia, espacamento, raio, elevacao, estados e marca. |
-| `01 Components` | Botoes, cards, check-in, treino, nutricao, alertas, campos e navegacao. |
-| `02 Screens` | Mobile, Web War Room e Admin/Gym. |
-
-Nota: o plano Figma Starter conectado limita o arquivo a 3 paginas. A organizacao usa secoes internas para manter a separacao profissional sem exigir upgrade imediato.
+| `00 Cover` | Capa, marca e principios de experiencia. |
+| `01 Foundations` | Cores, tipografia, espacamento, raio, elevacao e estados. |
+| `02 Components` | Botoes, cards, check-in, treino, nutricao, alertas, campos e navegacao. |
+| `03 Mobile Core` | Today, War Room, Nutrition, AI Command e Medical. |
+| `04 Web War Room` | Dashboard desktop para usuario/coach. |
+| `05 Admin Gym` | Operacao de academias, cohortes, risco, churn e alunos prioritarios. |
+| `06 Logo Specification` | Simbolo, lockups, regras de uso e area de protecao. |
+| `_Archive / Compact ...` | Historico das paginas compactadas iniciais. |
 
 ## Diretrizes
 
@@ -40,3 +49,4 @@ Nota: o plano Figma Starter conectado limita o arquivo a 3 paginas. A organizaca
 - Tokens documentados em Markdown e JSON.
 - Componentes e telas principais presentes no canvas.
 - Logo documentada com especificacao visual.
+- Validacao visual e estrutural registrada.
